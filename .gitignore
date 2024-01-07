@@ -5,3 +5,7 @@
 **/include/
 **/lib/
 **/share/
+**/.ipynb_checkpoints/
+**/.jupyter
+**/.vscode
+**/lib64
