@@ -1,50 +1,43 @@
-# SVD4Rec: Singular Value Decomposition for Recommender Systems
+# SVD4Rec: Метод сингулярного разложения для рекомендательных систем
 
-SVD4Rec is a C++ library that implements a Latent Factor Model (LFM) with Singular Value Decomposition (SVD) for building recommender systems. This library provides a Python interface using Pybind11, allowing you to efficiently train recommendation models and perform hyperparameter tuning.
-Compilation
+VD4Rec - это библиотека на C++, которая реализует модель латентных факторов (LFM) с использованием метода сингулярного разложения (SVD) для создания рекомендательных систем. Эта библиотека предоставляет интерфейс на Python с использованием Pybind11, позволяя вам эффективно обучать модели рекомендаций и проводить настройку гиперпараметров.
 
-Before using SVD4Rec, you need to compile the C++ code and create a Python module. Follow these steps:
+Прежде чем использовать SVD4Rec, вам необходимо скомпилировать C++ код и создать модуль на Python. Следуйте этим шагам:
+
+1. Склонировать репозийторий
 
 ```
 git clone https://github.com/rootinshik/SVD4Rec.git
 cd SVD4Rec
 ```
-Compile the Code:
+2. Скомпилировать код:
 
 ```
 python setup.py build_ext -i
 ```
 
-## Python Usage
+## Использование на Python
 
-Once you've compiled the library, you can use it in Python as follows:
+После компиляции библиотеки, вы можете использовать ее на Python следующим образом:
 
 ```
-
 import SVD4Rec
 
-# Load your user-item interaction matrix R as a numpy array
-# Example:
-# R = your_data_loading_function()
+# Загрузите матрицу взаимодействия user-item (numpy.ndarray)
+# Пример:
+R = user_item_matrix 
 
-# Train the recommender system using LFM_SGD
-P, Q, hyperparameters = SVD4Rec.LFM_SGD(R)
+# Обучите систему рекомендаций с использованием LFM_SGD
+P, Q, params = SVD4Rec.LFM_SGD(R)
 
-# You can also specify hyperparameters
-# P, Q, hyperparameters = SVD4Rec.LFM_SGD(R, epsilon=0.01, numIterations=5000, latentFactors=5, learningRate=0.0003, regularization=0.5, batchSize=50)
+# Вы также можете указать гиперпараметры
+# P, Q, params = SVD4Rec.LFM_SGD(R, epsilon=0.01, numIterations=5000, latentFactors=5, learningRate=0.0003, regularization=0.5, batchSize=50)
 
-# Perform hyperparameter tuning using randomized cross-validation
-# This will return the best hyperparameters and corresponding P and Q matrices
-best_P, best_Q, best_hyperparameters = SVD4Rec.tuneHyperparameters(R, numTrials=10, numIterationsRange=1000,
-                                                                  latentFactorsRange=10, learningRateMin=0.0001,
-                                                                  learningRateMax=0.001, regularizationMin=0.1,
-                                                                  regularizationMax=1.0, batchSizeMin=10,
-                                                                  batchSizeMax=100)
+# Проведите настройку гиперпараметров с использованием grid search cv
+# Это вернет лучшие гиперпараметры и соответствующие матрицы P и Q
+best_P, best_Q, best_params = SVD4Rec.tuneHyperparameters(R, numTrials=10, numIterationsRange=1000,
+                                                          latentFactorsRange=10, learningRateMin=0.0001,
+                                                          learningRateMax=0.001, regularizationMin=0.1,
+                                                          regularizationMax=1.0, batchSizeMin=10,
+                                                          batchSizeMax=100)
 ```
-
-## Example Data
-
-You should prepare your user-item interaction data as a numpy array `R` where rows represent users, columns represent items, and the values represent user-item interactions. Replace your_data_loading_function() with your actual data loading code.
-Library Documentation
-
-Enjoy using SVD4Rec for building and tuning recommender systems!
